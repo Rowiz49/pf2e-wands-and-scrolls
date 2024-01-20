@@ -1,0 +1,43 @@
+{
+  "id": "pf2e-wands-and-scrolls",
+  "title": "PF2e Wands And Scrolls",
+  "description": "",
+  "version": "1.0.0",
+  "library": "false",
+  "manifestPlusVersion": "1.2.0",
+  "compatibility": {
+    "minimum": 10,
+    "verified": 11,
+    "maximum": 11
+  },
+  "authors": [
+    {
+      "name": "Rowiz49",
+      "url": "https://github.com/Rowiz49"
+    }
+  ],
+  "relationships": {
+    "systems": [],
+    "requires": []
+  },
+  "esmodules": [
+    "scripts/module.js"
+  ],
+  "scripts": [
+    "scripts/lib/lib.js"
+  ],
+  "styles": [
+    "styles/module.css"
+  ],
+  "url": "#{URL}#",
+  "manifest": "#{MANIFEST}#",
+  "download": "#{DOWNLOAD}#",
+  "license": "LICENSE",
+  "readme": "README.md",
+  "media": [
+    {
+      "type": "icon",
+      "url": "https://avatars2.githubusercontent.com/u/71292812?s=400&u=ccdb4eeb7abf551ca8f314e5a9bfd0479a4d3d41&v=4"
+    }
+  ]
+}
