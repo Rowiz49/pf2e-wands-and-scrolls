@@ -9,13 +9,13 @@ const mostCommonInList = (arr) => {
 };
 
 Hooks.once("init", () => {
-  // Add Charge spell type.
+  // Add Scroll spell type.
   if (CONFIG.PF2E.spellCategories)
     CONFIG.PF2E.spellCategories.scroll = "Scroll";
   CONFIG.PF2E.preparationType.scroll = "Scroll";
   CONFIG.PF2E;
 
-  // Patch spellcastingEntry#cast to use charges instead of spell slots for staves.
+  // Patch spellcastingEntry#cast to use consume() for scroll and wand spells
   libWrapper.register(
     moduleID,
     "CONFIG.PF2E.Item.documentClasses.spellcastingEntry.prototype.cast",
@@ -29,19 +29,44 @@ Hooks.on("createItem", async (item, options, userID) => {
   if (userID !== game.user.id) return;
 
   const traits = item.system.traits?.value;
-  const isScroll = traits?.includes("scroll") && traits?.includes("magical");
+  const isSpellConsumable =
+    (traits?.includes("scroll") || traits?.includes("wand")) &&
+    traits?.includes("magical");
   if (!isScroll) return;
   if (!item.actor.spellcasting?.canCastConsumable(item)) return;
-  console.log();
   return updateScrollSpellcastingEntry(item);
+});
+
+Hooks.on("preDeleteItem", async (item, options, userID) => {
+  if (!item.actor) return;
+  if (userID !== game.user.id) return;
+  const traits = item.system.traits?.value;
+  const isScroll = traits?.includes("scroll") && traits?.includes("magical");
+  if (!isScroll) return;
+  const { actor } = item;
+  //Gets the spell associated with the scroll
+  const spellcastingEntries = actor.items.filter(
+    (i) => i.type === "spellcastingEntry"
+  );
+  const spellcastingEntry = spellcastingEntries.find(
+    (i) => i.system.prepared?.value === "scroll"
+  );
+  const spell = spellcastingEntry.spells.find(
+    (i) => i.getFlag(moduleID, "scrollID") === item.id
+  );
+  await spell.delete();
+  //If no more scrolls, delete the spellcasting entry
+  if (spellcastingEntry.spells.contents.length === 0)
+    await spellcastingEntry.delete();
 });
 
 async function updateScrollSpellcastingEntry(item) {
   const { actor } = item;
-  const { spell } = item;
-  const existingEntryID = actor.getFlag(moduleID, "ScrollSpellcastingEntryID");
-  const existingEntry =
-    item.actor.spellcasting.collections.get(existingEntryID);
+  const spell = item.system.spell;
+  let existingEntry = actor.spellcasting.collections.find(
+    (se) => se.entry?.system.prepared.value === "scroll"
+  )?.entry;
+  //If there is no existing entry we create one
   if (!existingEntry) {
     const highestMentalAbilityValue = Math.max(
       ...Object.keys(actor.abilities)
@@ -79,15 +104,23 @@ async function updateScrollSpellcastingEntry(item) {
     const [spellcastingEntry] = await actor.createEmbeddedDocuments("Item", [
       createData,
     ]);
-    await actor.setFlag(
-      (moduleID, "ScrollSpellcastingEntryID", spellcastingEntry._id)
-    );
-    await spellcastingEntry.addSpell(spell, spell.level);
+    existingEntry = spellcastingEntry;
   }
+  //Adds a new spell with the scroll ID as a flag
+  const baseSpell = await fromUuid(spell.flags.core.sourceId);
+  const spellClone = baseSpell.clone({
+    "system.location.heightenedLevel": spell.system.location?.heightenedLevel,
+  });
+  const newSpell = await existingEntry.addSpell(spellClone, spellClone.level);
+  newSpell.setFlag(moduleID, "scrollID", item.id);
 }
 
 async function spellcastingEntry_cast(wrapped, spell, ...args) {
-  wrapped(spell, ...args);
+  if (!spell.flags[moduleID]) return wrapped(spell, ...args);
+  const itemID = spell.getFlag(moduleID, "scrollID");
+  const item = spell.actor.items.find((i) => i.id === itemID);
+  if (item) return item.consume();
+  return wrapped(spell, ...args);
 }
 
 /**
