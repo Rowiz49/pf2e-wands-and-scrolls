@@ -1,14 +1,13 @@
 {
   "id": "pf2e-wands-and-scrolls",
   "title": "PF2e Wands And Scrolls",
-  "description": "",
+  "description": "A module that automatically adds your wands and scroll spells to your spellcasting tab",
   "version": "1.0.0",
   "library": "false",
   "manifestPlusVersion": "1.2.0",
   "compatibility": {
-    "minimum": 10,
-    "verified": 11,
-    "maximum": 11
+    "minimum": 11,
+    "verified": 11
   },
   "authors": [
     {
@@ -22,7 +21,7 @@
         "id": "pf2e",
         "type": "system",
         "compatibility": {
-          "minimum": "4.3.0"
+          "minimum": "5.12.0"
         }
       }
     ],
@@ -32,14 +31,13 @@
         "type": "module",
         "compatibility": {
           "minimum": "1",
-          "verified": "1.12.7.1"
+          "verified": "1.12.13.0"
         }
       }
     ]
   },
   "esmodules": [
-    "scripts/scrolls.js",
-    "scripts/wands.js"
+    "scripts/hooks.js"
   ],
   "styles": [
     "styles/module.css"

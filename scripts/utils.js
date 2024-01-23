@@ -8,6 +8,13 @@ const mostCommonInList = (arr) => {
     .pop();
 };
 
+/**
+ * Creates a new spellcasting entry
+ * @param {*} actor
+ * @param {*} entryName Name of the entry
+ * @param {*} entryPreparedValue prepared.value of the entry
+ * @returns the spellcasting Entry
+ */
 export async function createNewEntry(actor, entryName, entryPreparedValue) {
   const highestMentalAbilityValue = Math.max(
     ...Object.keys(actor.abilities)
@@ -48,11 +55,20 @@ export async function createNewEntry(actor, entryName, entryPreparedValue) {
   return spellcastingEntry;
 }
 
+/**
+ * Adds button to hide unused spell levels
+ * @param {*} html
+ * @param {*} actor
+ */
 export function addSlotToggleButton(html, actor) {
   const spellcastingLis = html.querySelectorAll("li.spellcasting-entry");
   for (const li of spellcastingLis) {
     const spellcastingEntry = actor.spellcasting.get(li.dataset.containerId);
-    if (spellcastingEntry?.system?.prepared?.value !== "scroll") continue;
+    if (
+      spellcastingEntry?.system?.prepared?.value !== "scroll" &&
+      spellcastingEntry?.system?.prepared?.value !== "wand"
+    )
+      continue;
 
     // Add .slotless-level-toggle button.
     const slotToggleButton = document.createElement("a");
