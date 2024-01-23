@@ -38,7 +38,8 @@
     ]
   },
   "esmodules": [
-    "scripts/module.js"
+    "scripts/scrolls.js",
+    "scripts/wands.js"
   ],
   "styles": [
     "styles/module.css"
