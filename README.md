@@ -2,7 +2,7 @@
 
 ![All Downloads](https://img.shields.io/github/downloads/rowiz49/pf2e-wands-and-scrolls/total?style=for-the-badge)
 
-# PF2e Wands And Staves
+# PF2e Wands And Scrolls
 
 Automate adding spells from scrolls and wands to your spellcasting tab.
 
