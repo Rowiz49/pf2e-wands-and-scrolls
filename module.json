@@ -39,9 +39,6 @@
   "esmodules": [
     "scripts/hooks.js"
   ],
-  "styles": [
-    "styles/module.css"
-  ],
   "languages": [],
   "flags": {},
   "url": "",
