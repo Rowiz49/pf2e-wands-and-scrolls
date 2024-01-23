@@ -42,9 +42,11 @@
   "styles": [
     "styles/module.css"
   ],
-  "url": "#{URL}#",
-  "manifest": "#{MANIFEST}#",
-  "download": "#{DOWNLOAD}#",
+  "languages": [],
+  "flags": {},
+  "url": "",
+  "manifest": "",
+  "download": "",
   "license": "LICENSE",
   "readme": "README.md"
 }
