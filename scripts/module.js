@@ -39,7 +39,7 @@ Hooks.on("preDeleteItem", async (item, options, userID) => {
   if (!item.actor) return;
   if (userID !== game.user.id) return;
   const traits = item.system.traits?.value;
-  const isScroll = z && traits?.includes("magical");
+  const isScroll = traits?.includes("scroll") && traits?.includes("magical");
   if (!isScroll) return;
   const { actor } = item;
   //Gets the spell associated with the scroll
