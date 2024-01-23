@@ -29,9 +29,7 @@ Hooks.on("createItem", async (item, options, userID) => {
   if (userID !== game.user.id) return;
 
   const traits = item.system.traits?.value;
-  const isSpellConsumable =
-    (traits?.includes("scroll") || traits?.includes("wand")) &&
-    traits?.includes("magical");
+  const isScroll = traits?.includes("scroll") && traits?.includes("magical");
   if (!isScroll) return;
   if (!item.actor.spellcasting?.canCastConsumable(item)) return;
   return updateScrollSpellcastingEntry(item);
@@ -41,7 +39,7 @@ Hooks.on("preDeleteItem", async (item, options, userID) => {
   if (!item.actor) return;
   if (userID !== game.user.id) return;
   const traits = item.system.traits?.value;
-  const isScroll = traits?.includes("scroll") && traits?.includes("magical");
+  const isScroll = z && traits?.includes("magical");
   if (!isScroll) return;
   const { actor } = item;
   //Gets the spell associated with the scroll
