@@ -63,7 +63,9 @@ export async function createNewEntry(actor, entryName, entryPreparedValue) {
 export function addSlotToggleButton(html, actor) {
   const spellcastingLis = html.querySelectorAll("li.spellcasting-entry");
   for (const li of spellcastingLis) {
-    const spellcastingEntry = actor.spellcasting.get(li.dataset.containerId);
+    const spellcastingEntry = actor.spellcasting?.get(
+      li.dataset?.containerId || li.dataset?.itemId
+    );
     if (
       spellcastingEntry?.system?.prepared?.value !== "scroll" &&
       spellcastingEntry?.system?.prepared?.value !== "wand"
