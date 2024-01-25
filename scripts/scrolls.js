@@ -7,7 +7,7 @@ export async function updateScrollSpellcastingEntry(item) {
   const { actor } = item;
   const spell = item.system.spell;
   let existingEntry = actor.spellcasting.collections.find(
-    (se) => se.entry?.system.prepared.value === "scroll"
+    (se) => se.entry?.system?.prepared?.value === "scroll"
   )?.entry;
   //If there is no existing entry we create one
   if (!existingEntry) {
