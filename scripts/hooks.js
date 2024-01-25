@@ -1,4 +1,4 @@
-import { updateScrollSpellcastingEntry } from "./scrolls.js";
+import { addScrollSettings, updateScrollSpellcastingEntry } from "./scrolls.js";
 import {
   moduleID,
   addSlotToggleButton,
@@ -6,7 +6,7 @@ import {
 } from "./utils.js";
 import { updateWandSpellcastingEntry, renderWandEntries } from "./wands.js";
 
-Hooks.once("init", () => {
+Hooks.once("init", async () => {
   // Add spell types.
   CONFIG.PF2E.preparationType.scroll = "Scroll";
   CONFIG.PF2E.preparationType.wand = "Wand";
@@ -18,6 +18,7 @@ Hooks.once("init", () => {
     spellcastingEntry_cast,
     "MIXED"
   );
+  await addScrollSettings();
 });
 
 Hooks.on("createItem", async (item, options, userID) => {

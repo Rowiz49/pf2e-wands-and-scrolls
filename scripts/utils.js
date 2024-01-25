@@ -1,5 +1,5 @@
 import { getWandFromSpell } from "./wands.js";
-import { getScrollFromSpell } from "./scrolls.js";
+import { getScrollFromSpell, scrollDialog } from "./scrolls.js";
 export const moduleID = "pf2e-wands-and-scrolls";
 const mostCommonInList = (arr) => {
   return arr
@@ -104,8 +104,9 @@ export async function spellcastingEntry_cast(wrapped, spell, options) {
   if (!spell.flags[moduleID]) return wrapped(spell, options);
 
   let scrollItem = getScrollFromSpell(spell);
+  let wandItem;
   if (!scrollItem) {
-    let wandItem = getWandFromSpell(spell);
+    wandItem = getWandFromSpell(spell);
     if (wandItem) {
       if (wandItem.system?.uses.value === 0)
         return ui.notifications.warn(
@@ -115,10 +116,15 @@ export async function spellcastingEntry_cast(wrapped, spell, options) {
   }
   if (scrollItem || wandItem) {
     let item = scrollItem || wandItem;
+    let proceed = true;
+    if (scrollItem && game.settings.get(moduleID, "showDialogWhenScrollCast")) {
+      proceed = await scrollDialog();
+    }
+    if (!proceed) return;
     ChatMessage.create({
       user: game.user._id,
-      speaker: ChatMessage.getSpeaker({ token: actor }),
-      content: `<p> ${speaker} used ${item.name}`,
+      speaker: ChatMessage.getSpeaker({ token: item.actor }),
+      content: `<p> ${item.actor.name} used ${item.name}`,
     });
     return item.consume();
   }
