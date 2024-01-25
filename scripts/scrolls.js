@@ -1,5 +1,21 @@
 import { moduleID, createNewEntry } from "./utils.js";
 
+export async function scrollDialog() {
+  let proceed;
+  const confirmScrollUseDialog = await Dialog.confirm({
+    title: "Are you sure?",
+    content: "Casting this spell will destroy the associated scroll.",
+    yes: () => {
+      proceed = true;
+    },
+    no: () => {
+      proceed = false;
+    },
+    defaultYes: false,
+  });
+  return proceed;
+}
+
 /**
  * Adds the scroll spell to the appropriate spellcasting entry.
  */
@@ -31,4 +47,20 @@ export function getScrollFromSpell(spell) {
   const itemID = spell.getFlag(moduleID, "scrollID");
   const item = spell.actor.items.find((i) => i.id === itemID);
   return item;
+}
+
+export async function addScrollSettings() {
+  /*
+   * Create setting to ask user if they want a dialog when using scrolls
+   */
+  game.settings.register(moduleID, "showDialogWhenScrollCast", {
+    name: "Show prompt when using a Scroll",
+    hint: "When activated, casting a scroll spell will prompt a dialog to confirm the action",
+    scope: "client", // "world" = sync to db, "client" = local storage
+    config: true, // false if you dont want it to show in module config
+    type: Boolean, // Number, Boolean, String, or even a custom class or DataModel
+    default: false,
+    filePicker: false, // set true with a String `type` to use a file picker input,
+    requiresReload: false, // when changing the setting, prompt the user to reload
+  });
 }

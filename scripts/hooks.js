@@ -1,16 +1,12 @@
+import { addScrollSettings, updateScrollSpellcastingEntry } from "./scrolls.js";
 import {
-  updateScrollSpellcastingEntry,
-  getScrollFromSpell,
-} from "./scrolls.js";
-import { moduleID, addSlotToggleButton } from "./utils.js";
-import {
-  updateWandSpellcastingEntry,
-  getWandFromSpell,
-  renderWandEntries,
-} from "./wands.js";
+  moduleID,
+  addSlotToggleButton,
+  spellcastingEntry_cast,
+} from "./utils.js";
+import { updateWandSpellcastingEntry, renderWandEntries } from "./wands.js";
 
-Hooks.once("init", () => {
-  console.log("init");
+Hooks.once("init", async () => {
   // Add spell types.
   CONFIG.PF2E.preparationType.scroll = "Scroll";
   CONFIG.PF2E.preparationType.wand = "Wand";
@@ -22,6 +18,7 @@ Hooks.once("init", () => {
     spellcastingEntry_cast,
     "MIXED"
   );
+  await addScrollSettings();
 });
 
 Hooks.on("createItem", async (item, options, userID) => {
@@ -84,18 +81,3 @@ Hooks.on("renderCreatureSheetPF2e", (sheet, [html], sheetData) => {
   addSlotToggleButton(html, actor);
   renderWandEntries(html, actor);
 });
-
-export async function spellcastingEntry_cast(wrapped, spell, options) {
-  if (!spell.flags[moduleID]) return wrapped(spell, options);
-
-  let item = getScrollFromSpell(spell);
-  if (item) return item.consume();
-
-  item = getWandFromSpell(spell);
-  if (item) {
-    //If it doesn't have charges you can't use it
-    if (item.system?.uses.value === 0) return;
-    return item.consume();
-  }
-  return wrapped(spell, options);
-}

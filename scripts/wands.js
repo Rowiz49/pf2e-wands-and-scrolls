@@ -4,7 +4,6 @@ import { createNewEntry, moduleID } from "./utils.js";
  * Adds the wand spell to the appropriate spellcasting entry.
  */
 export async function updateWandSpellcastingEntry(item) {
-  console.log(item);
   const { actor } = item;
   const spell = item.system.spell;
   let existingEntry = actor.spellcasting.collections.find(
@@ -55,7 +54,6 @@ export function renderWandEntries(html, actor) {
       '.spell-list .spell:not([data-group-id="cantrips"]'
     );
     for (const spell of spells) {
-      console.log(spell.dataset);
       const realSpell = entry.spells.find((i) => i.id === spell.dataset.itemId);
       if (getWandFromSpell(realSpell)?.system?.uses.value > 0) continue;
       spell.dataset.slotExpended = "";
