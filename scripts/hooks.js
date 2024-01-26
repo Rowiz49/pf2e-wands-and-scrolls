@@ -84,8 +84,8 @@ Hooks.on("renderCreatureSheetPF2e", (sheet, [html], sheetData) => {
   const isPC = actor.type === "character";
   if (!isPC) return;
   addSlotToggleButton(html, actor);
-  renderWandEntries(html, actor);
-  if (game.modules.get(toolbeltID)) {
+  if (game.modules.get(toolbeltID)?.active) {
     renderSummaryTypes(html, actor);
   }
+  renderWandEntries(html, actor);
 });

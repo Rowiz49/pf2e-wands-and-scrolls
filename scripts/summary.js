@@ -1,4 +1,5 @@
 export const toolbeltID = "pf2e-toolbelt";
+import { getWandFromSpell } from "./wands.js";
 /**
  * Function that creates compatibility with pf2e toolbelt's spell summary
  * @param {*} html
@@ -21,8 +22,15 @@ export function renderSummaryTypes(html, actor) {
     const isModuleEntry = isWand || isScroll;
     if (isModuleEntry) {
       spell.classList.add("no-hover");
+      if (isWand) {
+        const realSpell = entry.spells.find(
+          (i) => i.id === spell.dataset.itemId
+        );
+        if (getWandFromSpell(realSpell)?.system?.uses.value === 0) {
+          spell.setAttribute("data-slot-expended", "");
+        }
+      }
       const typeLabel = spell.querySelectorAll(".spell-type .uses-label");
-      console.log(typeLabel);
       typeLabel[0].innerHTML = isWand ? "Wand" : "Scroll";
     }
   }
