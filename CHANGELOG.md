@@ -1,3 +1,5 @@
+# 1.2.0
+- Added support for pf2e toolbelt - spell summary. When using spell summary spells will now show properly.
 # 1.1.1
 - Fixed an error with trick magic item not detecting properly. [#8](https://github.com/Rowiz49/pf2e-wands-and-scrolls/issues/8)
 # 1.1.0
