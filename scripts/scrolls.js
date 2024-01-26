@@ -1,5 +1,9 @@
 import { moduleID, createNewEntry } from "./utils.js";
 
+/**
+ * Shows a dialog to check if the user really wants to use the scroll
+ * @returns
+ */
 export async function scrollDialog() {
   let proceed;
   const confirmScrollUseDialog = await Dialog.confirm({
