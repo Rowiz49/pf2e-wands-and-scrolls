@@ -1,4 +1,5 @@
 import { addScrollSettings, updateScrollSpellcastingEntry } from "./scrolls.js";
+import { renderSummaryTypes, toolbeltID } from "./summary.js";
 import {
   moduleID,
   addSlotToggleButton,
@@ -83,5 +84,8 @@ Hooks.on("renderCreatureSheetPF2e", (sheet, [html], sheetData) => {
   const isPC = actor.type === "character";
   if (!isPC) return;
   addSlotToggleButton(html, actor);
+  if (game.modules.get(toolbeltID)?.active) {
+    renderSummaryTypes(html, actor);
+  }
   renderWandEntries(html, actor);
 });
