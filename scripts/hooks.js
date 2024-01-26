@@ -29,7 +29,11 @@ Hooks.on("createItem", async (item, options, userID) => {
   const isScroll = traits?.includes("scroll") && traits?.includes("magical");
   const isWand = traits?.includes("wand") && traits?.includes("magical");
   if (!isScroll && !isWand) return;
-  if (!item.actor.spellcasting?.canCastConsumable(item)) return;
+  if (
+    !item.actor.spellcasting?.canCastConsumable(item) &&
+    !item.actor.itemTypes.feat.some((feat) => feat.slug === "trick-magic-item")
+  )
+    return;
   if (isScroll) return updateScrollSpellcastingEntry(item);
   if (isWand) return updateWandSpellcastingEntry(item);
 });
@@ -51,7 +55,7 @@ Hooks.on("preDeleteItem", async (item, options, userID) => {
     spellcastingEntry = spellcastingEntries.find(
       (i) => i.system.prepared?.value === "scroll"
     );
-    spell = spellcastingEntry.spells.find(
+    spell = spellcastingEntry?.spells?.find(
       (i) => i.getFlag(moduleID, "scrollID") === item.id
     );
   }
@@ -60,14 +64,14 @@ Hooks.on("preDeleteItem", async (item, options, userID) => {
     spellcastingEntry = spellcastingEntries.find(
       (i) => i.system.prepared?.value === "wand"
     );
-    spell = spellcastingEntry.spells.find(
+    spell = spellcastingEntry?.spells?.find(
       (i) => i.getFlag(moduleID, "wandID") === item.id
     );
   }
   if (!spell) return;
   await spell.delete();
   //If no more scrolls, delete the spellcasting entry
-  if (spellcastingEntry.spells.contents.length === 0)
+  if (spellcastingEntry?.spells?.contents.length === 0)
     await spellcastingEntry.delete();
 });
 
