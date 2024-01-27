@@ -43,9 +43,10 @@ jobs:
           artifacts: "./module.json, ./module.zip"
           tag: ${{ github.event.release.tag_name }}
           body: ${{ github.event.release.body }}
-      - name: Deploy Stage
+      - name: Publish to Foundry VTT packages
         uses: fjogeleit/http-request-action@v1
         with:
+          timeout: 60000
           url: "https://api.foundryvtt.com/_api/packages/release_version/"
           method: "POST"
           customHeaders: '{"Content-Type": "application/json", "Authorization":"${{secrets.FOUNDRY_PACKAGE_RELEASE_TOKEN}}"}'
