@@ -1,11 +1,15 @@
 import { addScrollSettings, updateScrollSpellcastingEntry } from "./scrolls.js";
-import { renderSummaryTypes, toolbeltID } from "./summary.js";
+import {
+  renderSummaryTypes,
+  toolbeltID,
+} from "./compatibility-scripts/summary.js";
 import {
   moduleID,
   addSlotToggleButton,
   spellcastingEntry_cast,
 } from "./utils.js";
 import { updateWandSpellcastingEntry, renderWandEntries } from "./wands.js";
+import { changeSpellsTokenTooltip } from "./compatibility-scripts/token-tooltip.js";
 
 Hooks.once("init", async () => {
   // Add spell types.
@@ -88,4 +92,11 @@ Hooks.on("renderCreatureSheetPF2e", (sheet, [html], sheetData) => {
     renderSummaryTypes(html, actor);
   }
   renderWandEntries(html, actor);
+});
+
+/**
+ * Hook to make it comaptible with PF2e Interactive Token Tooltip
+ */
+Hooks.on("renderHUDSidebar", (type, sidebar, hud) => {
+  changeSpellsTokenTooltip(type, sidebar, hud);
 });

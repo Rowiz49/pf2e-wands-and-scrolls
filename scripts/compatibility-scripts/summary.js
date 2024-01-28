@@ -1,5 +1,5 @@
 export const toolbeltID = "pf2e-toolbelt";
-import { getWandFromSpell } from "./wands.js";
+import { getWandFromSpell } from "../wands.js";
 /**
  * Function that creates compatibility with pf2e toolbelt's spell summary
  * @param {*} html
