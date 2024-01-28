@@ -1,3 +1,5 @@
+# 1.3.1
+- Removed leftover logs.
 # 1.3.0
 - Added compatibility with pf2e interactive token tooltip. Wand and scroll spells will now show correctly. [#11](https://github.com/Rowiz49/pf2e-wands-and-scrolls/issues/11)
 # 1.2.0
