@@ -11,12 +11,10 @@ export function changeSpellsTokenTooltip(type, sidebar, hud) {
   const { actor } = hud;
 
   const entries = sidebar.find(".sidebar-content .entry");
-  console.log(entries);
   for (const entry of entries) {
     if (entry.dataset.entry === "cantrip" || entry.dataset.entry === "rituals")
       continue;
     const spells = entry.querySelectorAll(".spell.item.item-box");
-    console.log(spells);
     for (const spell of spells) {
       const entryId = spell.dataset.entryId;
       const entry = actor.spellcasting.get(entryId);

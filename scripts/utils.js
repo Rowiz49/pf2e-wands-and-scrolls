@@ -54,7 +54,6 @@ export async function createNewEntry(actor, entryName, entryPreparedValue) {
   const [spellcastingEntry] = await actor.createEmbeddedDocuments("Item", [
     createData,
   ]);
-  console.log(spellcastingEntry);
   return spellcastingEntry;
 }
 

@@ -39,7 +39,6 @@ export function getWandFromSpell(spell) {
  * @param {*} actor
  */
 export function renderWandEntries(html, actor) {
-  console.log($(html));
   const tab = $(html).find(
     ".sheet-body .sheet-content [data-tab=spellcasting] .spellcastingEntry-list"
   );
