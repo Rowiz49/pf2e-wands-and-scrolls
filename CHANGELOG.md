@@ -1,3 +1,5 @@
+# 1.3.0
+- Added compatibility with pf2e interactive token tooltip. Wand and scroll spells will now show correctly. [#11](https://github.com/Rowiz49/pf2e-wands-and-scrolls/issues/11)
 # 1.2.0
 - Added support for pf2e toolbelt - spell summary. When using spell summary spells will now show properly.
 # 1.1.1
