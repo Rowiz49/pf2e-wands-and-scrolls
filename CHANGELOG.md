@@ -1,3 +1,5 @@
+# 1.3.2
+- Updated maximum pf2e system version.
 # 1.3.1
 - Removed leftover logs.
 # 1.3.0
