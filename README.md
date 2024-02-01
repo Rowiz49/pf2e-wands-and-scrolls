@@ -3,6 +3,7 @@
 [![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fpf2e-wands-and-scrolls&colorB=4aa94a)](https://forge-vtt.com/bazaar#package=pf2e-wands-and-scrolls)
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S1TRVHB)
+# This functionality is now part of the core system so this module won't be updated further.
 # PF2e Wands And Scrolls
 
 Automate adding spells from scrolls and wands to your spellcasting tab.
